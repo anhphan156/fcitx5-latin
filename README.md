@@ -6,8 +6,7 @@ Type a- for ă.
 ## Install
 
 Use cmake:
-
-```
+```sh
 mkdir -p build
 cmake -B build
 cd build
@@ -16,17 +15,17 @@ sudo make install
 ```
 
 Use flake:
-```
-    inputs.latin.url = "github:anhphan156/fcitx5-latin";
+```nix
+inputs.latin.url = "github:anhphan156/fcitx5-latin";
 ```
 
 Then:
-```
-    i18n.inputMethod = {
-      fcitx5 = {
-        addons = [
-          inputs.latin.packages."x86_64-linux".default
-        ];
-      };
-    };
+```nix
+i18n.inputMethod = {
+  fcitx5 = {
+    addons = [
+      inputs.latin.packages."x86_64-linux".default
+    ];
+  };
+};
 ```
