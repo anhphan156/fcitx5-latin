@@ -3,6 +3,7 @@
 #include "latin.h"
 #include "fcitx-utils/keysym.h"
 #include <fcitx-utils/key.h>
+#include <fcitx/event.h>
 #include <fcitx/inputcontext.h>
 #include <fcitx/inputpanel.h>
 #include <fcitx/text.h>
@@ -15,6 +16,15 @@ void LatinEngine::keyEvent(const fcitx::InputMethodEntry &entry, fcitx::KeyEvent
     }
 
     fcitx::Key key = keyEvent.key();
+
+    if (key.states().testAny(fcitx::KeyStates{fcitx::KeyState::Ctrl, fcitx::KeyState::Super})) {
+        return;
+    }
+
+    if (keyEvent.type() == fcitx::EventType::InputContextFocusOut) {
+        this->buffer = 0;
+        return;
+    }
 
     auto *ic = keyEvent.inputContext();
 
