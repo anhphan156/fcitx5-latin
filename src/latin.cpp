@@ -8,6 +8,13 @@
 #include <fcitx/inputpanel.h>
 #include <fcitx/text.h>
 
+void LatinEngine::reset(const fcitx::InputMethodEntry &entry, fcitx::InputContextEvent &event) {
+    FCITX_UNUSED(entry);
+    event.inputContext()->inputPanel().reset();
+    event.inputContext()->updatePreedit();
+    this->buffer = 0;
+}
+
 void LatinEngine::keyEvent(const fcitx::InputMethodEntry &entry, fcitx::KeyEvent &keyEvent) {
     FCITX_UNUSED(entry);
 
@@ -18,11 +25,6 @@ void LatinEngine::keyEvent(const fcitx::InputMethodEntry &entry, fcitx::KeyEvent
     fcitx::Key key = keyEvent.key();
 
     if (key.states().testAny(fcitx::KeyStates{fcitx::KeyState::Ctrl, fcitx::KeyState::Super})) {
-        return;
-    }
-
-    if (keyEvent.type() == fcitx::EventType::InputContextFocusOut) {
-        this->buffer = 0;
         return;
     }
 
